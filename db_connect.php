@@ -1,6 +1,7 @@
 <?php 
-$db = mysqli_connect('localhost', 'root', '', 'php_crud');
-if(!$db){
+$db = 'php_crud';
+$conn = mysqli_connect('localhost', 'root', '', $db);
+if(!$conn){
     die("Connection failed: " . mysqli_connect_error());
 }
 ?>
