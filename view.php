@@ -1,8 +1,8 @@
 <!-- Abraham -->
- 
+
 <?php
 session_start();
-include 'connect.php';
+include 'db_connect.php';
 
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 $student = [];
@@ -14,15 +14,14 @@ if (isset($_POST['update'])) {
     $mobile    = trim($_POST['Mobile'] ?? '');
     $email     = trim($_POST['Email'] ?? '');
     $gender    = $_POST['Gender'] ?? '';
-    $department= $_POST['Department'] ?? [];
-    $dept_json = json_encode($department);
+    $department=  isset($_POST['Department']) ? implode(",", $_POST['Department']) : "";
     $address   = trim($_POST['Address'] ?? '');
 
     $update_sql = "UPDATE registered_students 
                    SET Name=?, Mobile=?, Email=?, Gender=?, Department=?, Address=?
                    WHERE ID=?";
     $stmt = $conn->prepare($update_sql);
-    $stmt->bind_param("ssssssi", $name, $mobile, $email, $gender, $dept_json, $address, $id);
+    $stmt->bind_param("ssssssi", $name, $mobile, $email, $gender, $department, $address, $id);
 
     if ($stmt->execute()) {
         $_SESSION['message'] = "Record updated successfully";
@@ -105,16 +104,16 @@ if (!empty($id)) {
 
 
             <label>Gender:</label>
-            <input type="radio" name="Gender" value="Male" <?= $student['Gender']=="Male"?"checked":"" ?>> Male
-            <input type="radio" name="Gender" value="Female" <?= $student['Gender']=="Female"?"checked":"" ?>> Female
+            <input type="radio" name="Gender" value="Male" <?= $student['Gender']=='Male'?'checked':'' ?>> Male
+            <input type="radio" name="Gender" value="Female" <?= $student['Gender']=='Female'?'checked':'' ?>> Female
             <br><br>
        
 
         
             <label>Department</label><br>
-            <input type="checkbox" name="Department[]" value="English" <?= in_array("English",$departments)?"checked":"" ?>> English
-            <input type="checkbox" name="Department[]" value="Computer" <?= in_array("Computer",$departments)?"checked":"" ?>> Computer
-            <input type="checkbox" name="Department[]" value="Business" <?= in_array("Business",$departments)?"checked":"" ?>> Business
+            <input type="checkbox" name="Department[]" value="English" <?php if(strpos($student['Department'],"English")!==false) echo "checked"; ?>> English
+            <input type="checkbox" name="Department[]" value="Computer" <?php if(strpos($student['Department'],"Computer")!==false) echo "checked"; ?>> Computer
+            <input type="checkbox" name="Department[]" value="Business" <?php if(strpos($student['Department'],"Business")!==false) echo "checked"; ?>> Business
             <br><br>
        
 
@@ -161,7 +160,7 @@ if (!empty($id)) {
         <?php endif; ?>
     </table>
 
-    <a href="home.php" >Back to Registration</a>
+    <a href="index.php" >Back to Registration</a>
 <?php endif; ?>
 
 </body>

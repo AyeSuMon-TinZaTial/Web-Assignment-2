@@ -2,7 +2,7 @@
 
 <?php
 session_start();
-include 'connect.php';
+include 'db_connect.php';
 
 $message = $_SESSION['message'] ?? '';
 unset($_SESSION['message']);
@@ -60,13 +60,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <h2><?= htmlspecialchars($message) ?></h2>
     
 
-    <a href="home.php">Back to Registration</a><br>
+    <a href="index.php">Back to Registration</a><br>
     <a href="view.php">View All Registrations</a>
 
     <?php elseif (empty($message)): ?>
         <h2>New Record created successfully</h2>
-    
-     <a href="home.php">Back to Registration</a><br>
+
+     <a href="index.php">Back to Registration</a><br>
     <a href="view.php">View All Registrations</a>
 
     <?php endif; ?>

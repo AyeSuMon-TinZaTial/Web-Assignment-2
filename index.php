@@ -1,15 +1,15 @@
 <!-- Aung Kaung Myat -->
- 
+
 <?php
-// index.php - registration form (does NOT insert; process.php does)
-include 'connect.php'; // must provide $conn (mysqli)
+
+include 'db_connect.php';
 
 $id        = $_POST['ID']?? ''; 
 $name       = $_POST['Name'] ?? '';
 $mobile     = $_POST['Mobile'] ?? '';
 $email      = $_POST['Email'] ?? '';
 $gender     = $_POST['Gender'] ?? '';
-$department = $_POST['Department'] ?? []; // array from checkboxes
+$department = $_POST['Department'] ?? []; 
 $address    = $_POST['Address'] ?? '';
 ?>
 <!DOCTYPE html>
